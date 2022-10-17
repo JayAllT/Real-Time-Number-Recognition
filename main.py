@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import matplotlib.pyplot as plt
 
 pygame.init()
 
@@ -8,7 +9,9 @@ win = pygame.display.set_mode((352, 352))
 pygame.display.set_caption("Real-Time NO. Recognition")
 
 run = True
+mouse_down = True
 canvas = []
+pixel_canvas = np.zeros((32, 32), dtype=int)
 marker_size = 10
 mouse_state = ()
 mouse_pos = ()
@@ -33,11 +36,19 @@ while run:
 	# get mouse state
 	mouse_state = pygame.mouse.get_pressed(num_buttons=3)
 	mouse_pos = list(pygame.mouse.get_pos())
+	mouse_down = True if mouse_state[0] else mouse_down
 
 	# draw
-	if mouse_state[0] == True:
+	if mouse_state[0]:
 		if mouse_pos not in canvas:  # add mouse position and to canvas
 			canvas.append(mouse_pos)
+
+	# detect mouse up
+	if (not mouse_state[0]) and mouse_down:
+		for spot in canvas:
+			pixel_canvas[int(spot[1] / 11)][int(spot[0] / 11)] = 1
+
+			mouse_down = False
 
 	# redraw window
 	draw_window()
