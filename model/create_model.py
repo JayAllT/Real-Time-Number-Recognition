@@ -33,6 +33,10 @@ def main():
     labels = np.array(labels)
     model.fit(images, labels, epochs=20)
 
+    img = cv2.cvtColor(cv2.imread("image.png"), cv2.COLOR_BGR2GRAY) / 255.0
+
+    print(np.argmax(model.predict(np.array([img]))) + 1)
+
 
 if __name__ == "__main__":
     main()
