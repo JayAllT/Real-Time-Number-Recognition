@@ -1,6 +1,6 @@
 import pygame
 import numpy as np
-import matplotlib.pyplot as plt
+import cv2
 
 pygame.init()
 
@@ -11,7 +11,7 @@ pygame.display.set_caption("Real-Time NO. Recognition")
 run = True
 mouse_down = True
 canvas = []
-pixel_canvas = np.zeros((32, 32), dtype=int)
+pixel_canvas = np.full((32, 32, 3), 255, dtype=int)
 marker_size = 10
 mouse_state = ()
 mouse_pos = ()
@@ -45,10 +45,12 @@ while run:
 
 	# detect mouse up
 	if (not mouse_state[0]) and mouse_down:
-		for spot in canvas:
-			pixel_canvas[int(spot[1] / 11)][int(spot[0] / 11)] = 1
+		for spot in canvas:  # create pixelated canvas array
+			pixel_canvas[int(spot[1] / 11)][int(spot[0] / 11)] = np.zeros(3)
 
-			mouse_down = False
+		cv2.imwrite("image.png", pixel_canvas)
+
+		mouse_down = False
 
 	# redraw window
 	draw_window()
