@@ -23,19 +23,17 @@ def main():
     # create model
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=(32, 32)),
-        keras.layers.Dense(256, activation="relu"),
+        keras.layers.Dense(128, activation="relu"),
         keras.layers.Dense(64, activation="relu"),
-        keras.layers.Dense(3, activation="softmax")
+        keras.layers.Dense(9, activation="softmax")
     ])
 
     model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
     images = np.array(images)
     labels = np.array(labels)
-    model.fit(images, labels, epochs=20)
+    model.fit(images, labels, epochs=35)
 
-    img = cv2.cvtColor(cv2.imread("image.png"), cv2.COLOR_BGR2GRAY) / 255.0
-
-    print(np.argmax(model.predict(np.array([img]))) + 1)
+    model.save("model.h5")
 
 
 if __name__ == "__main__":
