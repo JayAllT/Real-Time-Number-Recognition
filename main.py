@@ -23,7 +23,7 @@ predicted_num = 0
 font = pygame.font.SysFont("Arial", 14)
 
 # load number recognition model
-model = keras.models.load_model("model\\model.h5")
+model = keras.models.load_model("model/model.h5")
 
 
 def draw_window():
@@ -73,8 +73,6 @@ while run:
 			pixel_canvas[int(spot[1] / 11)][int(spot[0] / 11)] = 0
 
 		pixel_canvas = pixel_canvas / 255.0
-
-		cv2.imwrite("image.png", pixel_canvas)
 		predicted_num = np.argmax(model.predict(np.array([pixel_canvas]))) + 1
 
 		mouse_down = False
